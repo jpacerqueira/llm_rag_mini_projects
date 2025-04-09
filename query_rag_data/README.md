@@ -1,11 +1,13 @@
-
  # Query data using RAG in prompt not SQL
 
- ## use command
+ ## To use commands
 
- ## Launch script -->  query_rag_data % bash -x run-app.sh
+ ## - Folder query_rag_data
 
- ## launch app - https://localhost:8507
+ ## 1. Requires --> query_rag_data % brew install duckdb 
 
- ## Requires --> query_rag_data % brew install duckdb 
+ ## 2. Install App -->  query_rag_data % bash -x run-app.sh
 
+ ## 3. Launch app --> https://localhost:8507
+
+![LLM RAG Query Metadata](images/LLM_RAG_Query_Metadata_4_0.png)
