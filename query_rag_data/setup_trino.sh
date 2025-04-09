@@ -32,6 +32,7 @@ docker run -d \
     -p 8080:8080 \
     -v $(pwd)/trino_data/etc:/etc/trino \
     -v $(pwd)/trino_data/data:/var/trino/data \
+    --network rag-network \
     trinodb/trino:latest
 
 # Wait for Trino to start

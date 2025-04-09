@@ -27,7 +27,7 @@ DB_CONFIGS = {
         'path': 'duckdb_data/cloud_risk_portal.duckdb'
     },
     'trino': {
-        'host': 'localhost',
+        'host': 'trino',
         'port': 8080,
         'user': 'trino',
         'catalog': 'hive',
