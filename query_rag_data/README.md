@@ -2,11 +2,11 @@
 
  ## To use commands
 
- ## - Folder query_rag_data
+ ## In this folder query_rag_data
 
- ## 1. Requires --> query_rag_data % brew install duckdb 
+ ## 1. Requires --> brew install duckdb 
 
- ## 2. Install App -->  query_rag_data % bash -x run-app.sh
+ ## 2. Install App --> ./run-app.sh
 
  ## 3. Launch app --> https://localhost:8507
 
