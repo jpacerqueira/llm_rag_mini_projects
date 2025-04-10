@@ -67,6 +67,7 @@ docker run -d \
     -e S3_ACCESS_KEY=DUMMY_ACCESS_KEY \
     -e S3_SECRET_KEY=DUMMY_SECRET_KEY \
     -e S3_PREFIX=DUMMY_PREFIX \
+    -e S3_ENDPOINT_URL=https://my-dummy-bucket.s3.us-east-1.amazonaws.com \
     naushadh/hive-metastore:latest
 
 # Wait for Hive-Metastore to start
