@@ -69,7 +69,7 @@ docker run -d \
     -e S3_BUCKET=my-dummy-bucket \
     -e S3_ACCESS_KEY=hidden \
     -e S3_SECRET_KEY=hidden \
-    -e -e S3_PREFIX=hidden \
+    -e S3_PREFIX=hidden \
     -e S3_ENDPOINT_URL=https://my-dummy-bucket.s3.us-east-1.amazonaws.com \
     naushadh/hive-metastore:latest
 
