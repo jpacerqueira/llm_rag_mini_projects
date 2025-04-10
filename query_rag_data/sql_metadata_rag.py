@@ -64,15 +64,25 @@ def get_database_metadata(db_type: str) -> str:
     elif db_type == 'duckdb':
         conn = duckdb.connect(DB_CONFIGS['duckdb']['path'])
         
-        # Get tables
-        tables = conn.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
+        # Get tables using DuckDB's information schema
+        tables = conn.execute("""
+            SELECT table_name 
+            FROM information_schema.tables 
+            WHERE table_schema = 'main'
+        """).fetchall()
         
         for table in tables:
             table_name = table[0]
-            columns = conn.execute(f"PRAGMA table_info({table_name})").fetchall()
+            columns = conn.execute(f"""
+                SELECT column_name, data_type, is_nullable
+                FROM information_schema.columns
+                WHERE table_name = '{table_name}'
+                ORDER BY ordinal_position
+            """).fetchall()
+            
             for col in columns:
-                cid, name, type_, notnull, dflt_value, pk = col
-                metadata.append(f"Table: {table_name}\nColumn: {name}\nType: {type_}\nNullable: {not notnull}\n")
+                name, type_, nullable = col
+                metadata.append(f"Table: {table_name}\nColumn: {name}\nType: {type_}\nNullable: {nullable}\n")
         
         conn.close()
     
