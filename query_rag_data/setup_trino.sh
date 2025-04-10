@@ -63,6 +63,10 @@ docker run -d \
     -e DATABASE_USER=postgres \
     -e DATABASE_PASSWORD=password \
     -e DATABASE_DB=hive \
+    -e S3_BUCKET=DUMMY_BUCKET \
+    -e S3_ACCESS_KEY=DUMMY_ACCESS_KEY \
+    -e S3_SECRET_KEY=DUMMY_SECRET_KEY \
+    -e S3_PREFIX=DUMMY_PREFIX \
     naushadh/hive-metastore:latest
 
 # Wait for Hive-Metastore to start
