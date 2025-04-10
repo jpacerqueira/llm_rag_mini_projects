@@ -32,7 +32,7 @@ DB_CONFIGS = {
         'port': os.getenv('TRINO_PORT', 8080),
         'user': os.getenv('TRINO_USER', 'trino'),
         'password': os.getenv('TRINO_PASSWORD', ''),
-        'catalog': os.getenv('TRINO_CATALOG', 'hive'),
+        'catalog': os.getenv('TRINO_CATALOG', 'tpch'),
         'schema': os.getenv('TRINO_SCHEMA', 'cloud_risk_portal_rag_data'),
         'http_scheme': 'http',
         'verify': False

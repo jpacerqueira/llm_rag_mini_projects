@@ -69,7 +69,7 @@ echo "Waiting for Trino to start..."
 sleep 60
 
 # Run the initialization script
-docker exec -i trinodb trino --server http://host.docker.internal:8080 --catalog hive --schema cloud_risk_portal_rag_data < init_trino.sql
+docker exec -i trinodb trino --server http://host.docker.internal:8080 --catalog tpch --schema cloud_risk_portal_rag_data < init_trino.sql
 
 echo "Trino setup completed!"
 echo "Trino is running at http://localhost:8080"
