@@ -97,7 +97,7 @@ def get_database_metadata(db_type: str) -> str:
                     host=DB_CONFIGS['trino']['host'],
                     port=DB_CONFIGS['trino']['port'],
                     user=DB_CONFIGS['trino']['user'],
-                    password=DB_CONFIGS['trino']['password'],
+#                    password=DB_CONFIGS['trino']['password'],
                     catalog=DB_CONFIGS['trino']['catalog'],
                     schema=DB_CONFIGS['trino']['schema'],
                     http_scheme=DB_CONFIGS['trino']['http_scheme'],

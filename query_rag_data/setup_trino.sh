@@ -85,8 +85,8 @@ docker run -d \
     -v $(pwd)/trino_data/etc:/etc/trino \
     -v $(pwd)/trino_data/data:/var/trino/data \
     -e JAVA_HOME=/usr/lib/jvm/temurin/jdk-24+36 \
-    -u trino:trino \
     trinodb/trino:474 
+#    -u trino:trino \
 #   trinodb/trino:latest
 
 # Wait for Trino to start
