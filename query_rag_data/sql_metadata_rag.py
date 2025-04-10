@@ -10,6 +10,7 @@ from langchain.chains import RetrievalQA
 import os
 from dotenv import load_dotenv
 from typing import Dict, Any, List
+import time
 
 # Load environment variables
 load_dotenv()
@@ -30,8 +31,11 @@ DB_CONFIGS = {
         'host': os.getenv('TRINO_HOST', 'trinodb'),
         'port': os.getenv('TRINO_PORT', 8080),
         'user': os.getenv('TRINO_USER', 'trino'),
+        'password': os.getenv('TRINO_PASSWORD', ''),
         'catalog': os.getenv('TRINO_CATALOG', 'hive'),
-        'schema': os.getenv('TRINO_SCHEMA', 'cloud_risk_portal_rag_data')
+        'schema': os.getenv('TRINO_SCHEMA', 'cloud_risk_portal_rag_data'),
+        'http_scheme': 'http',
+        'verify': False
     }
 }
 
@@ -73,28 +77,44 @@ def get_database_metadata(db_type: str) -> str:
         conn.close()
     
     elif db_type == 'trino':
-        conn = trino.dbapi.connect(
-            host=DB_CONFIGS['trino']['host'],
-            port=DB_CONFIGS['trino']['port'],
-            user=DB_CONFIGS['trino']['user'],
-            catalog=DB_CONFIGS['trino']['catalog'],
-            schema=DB_CONFIGS['trino']['schema']
-        )
-        cursor = conn.cursor()
+        max_retries = 3
+        retry_delay = 5
         
-        cursor.execute("SHOW TABLES")
-        tables = cursor.fetchall()
-        
-        for table in tables:
-            table_name = table[0]
-            cursor.execute(f"DESCRIBE {table_name}")
-            columns = cursor.fetchall()
-            for col in columns:
-                name, type_, extra = col
-                metadata.append(f"Table: {table_name}\nColumn: {name}\nType: {type_}\n")
-        
-        cursor.close()
-        conn.close()
+        for attempt in range(max_retries):
+            try:
+                conn = trino.dbapi.connect(
+                    host=DB_CONFIGS['trino']['host'],
+                    port=DB_CONFIGS['trino']['port'],
+                    user=DB_CONFIGS['trino']['user'],
+                    password=DB_CONFIGS['trino']['password'],
+                    catalog=DB_CONFIGS['trino']['catalog'],
+                    schema=DB_CONFIGS['trino']['schema'],
+                    http_scheme=DB_CONFIGS['trino']['http_scheme'],
+                    verify=DB_CONFIGS['trino']['verify']
+                )
+                cursor = conn.cursor()
+                
+                cursor.execute("SHOW TABLES")
+                tables = cursor.fetchall()
+                
+                for table in tables:
+                    table_name = table[0]
+                    cursor.execute(f"DESCRIBE {table_name}")
+                    columns = cursor.fetchall()
+                    for col in columns:
+                        name, type_, extra = col
+                        metadata.append(f"Table: {table_name}\nColumn: {name}\nType: {type_}\n")
+                
+                cursor.close()
+                conn.close()
+                break
+            except Exception as e:
+                if attempt < max_retries - 1:
+                    st.warning(f"Connection attempt {attempt + 1} failed. Retrying in {retry_delay} seconds...")
+                    time.sleep(retry_delay)
+                else:
+                    st.error(f"Failed to connect to Trino after {max_retries} attempts: {str(e)}")
+                    raise
     
     return "\n".join(metadata)
 
