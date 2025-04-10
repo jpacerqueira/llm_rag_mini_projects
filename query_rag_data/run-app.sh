@@ -84,7 +84,7 @@ else
     ./setup_postgres.sh $POSTGRES_USER $POSTGRES_PASSWORD $DBFILE
     echo "setup duckdb"
     ./setup_duckdb.sh
-    echi "setup trino"
+    echo "setup trino"
     ./setup_trino.sh
     
     # Build the Docker image

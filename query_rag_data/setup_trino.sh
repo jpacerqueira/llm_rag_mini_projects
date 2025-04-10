@@ -63,10 +63,12 @@ docker run -d \
     -e DATABASE_USER=postgres \
     -e DATABASE_PASSWORD=password \
     -e DATABASE_DB=hive \
+    -e AWS_ACCESS_KEY_ID=hidden \
+    -e AWS_SECRET_ACCESS_KEY=hidden \
+    -e AWS_DEFAULT_REGION=us-east-1 \
     -e S3_BUCKET=my-dummy-bucket \
-    -e S3_ACCESS_KEY=DUMMY_ACCESS_KEY \
-    -e S3_SECRET_KEY=DUMMY_SECRET_KEY \
-    -e S3_PREFIX=DUMMY_PREFIX \
+    -e S3_ACCESS_KEY=hidden \
+    -e S3_SECRET_KEY=hidden \
     -e S3_ENDPOINT_URL=https://my-dummy-bucket.s3.us-east-1.amazonaws.com \
     naushadh/hive-metastore:latest
 
