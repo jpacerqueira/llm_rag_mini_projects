@@ -59,3 +59,7 @@ VALUES
     ('prod-database', 'RDS', 'AWS', 'us-east-1'),
     ('dev-storage', 'Blob Storage', 'Azure', 'eastus'),
     ('prod-storage', 'Blob Storage', 'Azure', 'eastus'); 
+
+-- Create hive-metastore database and schema
+CREATE DATABASE hive;
+CREATE SCHEMA IF NOT EXISTS hive;
