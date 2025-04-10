@@ -25,7 +25,8 @@ DB_CONFIGS = {
         'port': os.getenv('POSTGRES_PORT', '5432')
     },
     'duckdb': {
-        'path': 'duckdb_data/cloud_risk_portal.duckdb'
+        'path': 'duckdb_data/cloud_risk_portal.duckdb',
+        'schema': 'main'
     },
     'trino': {
         'host': os.getenv('TRINO_HOST', 'trinodb'),
