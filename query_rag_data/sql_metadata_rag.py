@@ -17,8 +17,8 @@ load_dotenv()
 # Database connection parameters
 DB_CONFIGS = {
     'postgres': {
-        'dbname': 'cloud_risk_portal_rag_data',
-        'user': 'postgres',
+        'dbname': os.getenv('POSTGRES_DB', 'cloud_risk_portal_rag_data'),
+        'user': os.getenv('POSTGRES_USER', 'postgres'),
         'password': os.getenv('POSTGRES_PASSWORD', 'password'),
         'host': os.getenv('POSTGRES_HOST', '0.0.0.0'),
         'port': os.getenv('POSTGRES_PORT', '5432')
@@ -27,11 +27,11 @@ DB_CONFIGS = {
         'path': 'duckdb_data/cloud_risk_portal.duckdb'
     },
     'trino': {
-        'host': 'trino',
-        'port': 8080,
-        'user': 'trino',
-        'catalog': 'hive',
-        'schema': 'cloud_risk_portal_rag_data'
+        'host': os.getenv('TRINO_HOST', 'trinodb'),
+        'port': os.getenv('TRINO_PORT', 8080),
+        'user': os.getenv('TRINO_USER', 'trino'),
+        'catalog': os.getenv('TRINO_CATALOG', 'hive'),
+        'schema': os.getenv('TRINO_SCHEMA', 'cloud_risk_portal_rag_data')
     }
 }
 

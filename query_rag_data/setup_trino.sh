@@ -26,12 +26,40 @@ connector.name=hive
 hive.metastore.uri=thrift://localhost:9083
 EOF
 
+# Create JVM configuration
+cat > trino_data/etc/jvm.config << EOF
+-server
+-Xmx16G
+-Xms16G
+-XX:InitialRAMPercentage=80
+-XX:MaxRAMPercentage=80
+-XX:+UseG1GC
+-XX:G1HeapRegionSize=32M
+-XX:+ExplicitGCInvokesConcurrent
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:+ExitOnOutOfMemoryError
+-XX:ReservedCodeCacheSize=512M
+-XX:PerMethodRecompilationCutoff=10000
+-XX:PerBytecodeRecompilationCutoff=10000
+-Djdk.attach.allowAttachSelf=true
+-Djdk.nio.maxCachedBufferSize=2000000
+-XX:+UseStringDeduplication
+-XX:+UseCompressedOops
+-XX:+OptimizeStringConcat
+-XX:+UseNUMA
+-XX:+PerfDisableSharedMem
+-XX:+AlwaysPreTouch
+-XX:+UseTransparentHugePages
+-XX:+UseLargePages
+EOF
+
 # Start Trino using Docker
 docker run -d \
-    --name trino \
+    --name trinodb \
     -p 8080:8080 \
     -v $(pwd)/trino_data/etc:/etc/trino \
     -v $(pwd)/trino_data/data:/var/trino/data \
+    -e JAVA_HOME=/usr/lib/jvm/temurin/jdk-24+36 \
     --network rag-network \
     trinodb/trino:latest
 
@@ -40,8 +68,8 @@ echo "Waiting for Trino to start..."
 sleep 30
 
 # Run the initialization script
-docker exec -i trino trino --catalog hive --schema default < init_trino.sql
+docker exec -i trinodb trino --catalog hive --schema default < init_trino.sql
 
 echo "Trino setup completed!"
 echo "Trino is running at http://localhost:8080"
-echo "You can connect using: docker exec -it trino trino" 
+echo "You can connect using: docker exec -it trinodb trino" 
