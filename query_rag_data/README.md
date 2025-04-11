@@ -1,12 +1,19 @@
  # Query data using RAG in prompt not SQL
 
- ## To use commands
+ ## To use commands in folder --> query_rag_data
+ ```
+ cd query_rag_data
+ ```
 
- ## In this folder query_rag_data
+ ## 1. Requires -->
+ ```
+ brew install duckdb
+ ```
 
- ## 1. Requires --> brew install duckdb 
-
- ## 2. Install App --> ./run-app.sh
+ ## 2. Install App -->
+ ```
+ ./run-app.sh
+ ```
 
  ## 3. Launch app --> https://localhost:8507
 
