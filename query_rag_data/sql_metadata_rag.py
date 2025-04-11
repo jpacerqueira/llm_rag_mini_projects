@@ -63,29 +63,30 @@ def get_database_metadata(db_type: str) -> str:
         conn.close()
     
     elif db_type == 'duckdb':
+        # First connection to get tables
         conn = duckdb.connect(DB_CONFIGS['duckdb']['path'])
-        
-        # Get tables using DuckDB's information schema
         tables = conn.execute("""
             SELECT table_name 
             FROM information_schema.tables 
             WHERE table_schema = 'main'
         """).fetchall()
+        conn.close()
         
+        # Process each table with a new connection
         for table in tables:
             table_name = table[0]
+            conn = duckdb.connect(DB_CONFIGS['duckdb']['path'])
             columns = conn.execute(f"""
                 SELECT column_name, data_type, is_nullable
                 FROM information_schema.columns
                 WHERE table_name = '{table_name}'
                 ORDER BY ordinal_position
             """).fetchall()
+            conn.close()
             
             for col in columns:
                 name, type_, nullable = col
                 metadata.append(f"Table: {table_name}\nColumn: {name}\nType: {type_}\nNullable: {nullable}\n")
-        
-        conn.close()
     
     elif db_type == 'trino':
         max_retries = 3

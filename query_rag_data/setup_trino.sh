@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# stop and rm containers
+docker stop trinodb || true
+docker rm trinodb || true   
+docker stop hive-metastore || true
+docker rm hive-metastore || true
+
 # Create necessary directories
 mkdir -p trino_data/etc trino_data/etc/catalog trino_data/data
 
