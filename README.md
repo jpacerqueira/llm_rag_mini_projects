@@ -8,7 +8,6 @@ RAG mini projects with fundational models FMs
  cd query_rag_data
  ```
 
-
  ## 1. Requires -->
  ```
  brew install duckdb
