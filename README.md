@@ -3,9 +3,7 @@ RAG mini projects with fundational models FMs
 
  # Query data using RAG in prompt not SQL
 
- ## To use commands
-
- ## In folder --> query_rag_data
+ ## To use commands in folder --> query_rag_data
  ```
  cd query_rag_data
  ```
