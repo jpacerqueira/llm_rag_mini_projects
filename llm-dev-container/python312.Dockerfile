@@ -42,6 +42,7 @@ RUN conda activate llm_env && \
     openai \
     anthropic \
     langchain==0.3.10 \
+    langflow==1.3.2 \
     langchain[anthropic]==0.3.10 \
     torch \
     transformers \
