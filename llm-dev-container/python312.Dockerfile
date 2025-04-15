@@ -1,5 +1,5 @@
-# Use Python 3.11 slim as base image
-FROM python:3.11-slim
+# Use Python 3.12 slim as base image
+FROM python:3.12-slim
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -13,6 +13,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
     wget \
+    vim \
+    net-tools \
+    procps \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Miniconda
@@ -38,7 +41,8 @@ RUN conda activate llm_env && \
     flask \
     openai \
     anthropic \
-    langchain \
+    langchain==0.3.10 \
+    langchain[anthropic]==0.3.10 \
     torch \
     transformers \
     sentence-transformers \
@@ -51,19 +55,41 @@ RUN conda activate llm_env && \
     huggingface_hub \
     pandas \
     pyarrow \
+    duckdb \
+    fastparquet \
+    openai \
+    openai-agents \
+    rich \
     numpy \
     scikit-learn \
     matplotlib \
     seaborn \
     tensorboard \
-    wandb
+    wandb \
+    dotenv \
+    streamlit \
+    fastapi \
+    uvicorn \
+    mangum \
+    tiktoken \
+    boto3 \
+    awscli
+     
 
 # Set working directory
 WORKDIR /app
 
-# Expose ports for Jupyter and Flask
-EXPOSE 8888:8888/tcp
-EXPOSE 5000:5000/tcp
+# Expose ports for various applications
+# 8888: Jupyter Notebook (default)
+# 5000-5009: Flask/other web apps
+# 8000-8009: FastAPI/other web apps
+# 8501-8509: Streamlit apps
+# 9999: TensorBoard
+EXPOSE 8888
+EXPOSE 5000-5009
+EXPOSE 8000-8009
+EXPOSE 8501-8509
+EXPOSE 9999
 
 # Create a startup script
 RUN echo '#!/bin/bash' > /app/start.sh \
